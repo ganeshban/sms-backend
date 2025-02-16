@@ -7,10 +7,8 @@ import com.ganeshban.SMSServer.Entity.UserEntity;
 import java.util.List;
 
 public interface UserService {
-    UserEntity createUser(UserEntity request) throws NotFound;
-    UserEntity getOne(Long id) throws NotFound;
-    List<UserEntity> getAll();
-    UserEntity updateUser(UserEntity request) throws NotFound;
+    UserEntity getOne(String id) throws NotFound;
     UserEntity login(LoginDTO request) throws NotFound;
+
 }
 

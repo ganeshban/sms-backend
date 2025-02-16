@@ -11,13 +11,13 @@ import java.util.Optional;
 public interface SmsDataService {
     SMSDataEntity newMessage(SMSDataEntity request) throws NotFound;
 
-    SMSDataEntity getOne(Long id, String code) throws NotFound;
+    SMSDataEntity getOne(String id, String code) throws NotFound;
 
     List<SMSDataEntity> findAllByCode(String code);
     SMSDataEntity findByCode(String code) throws NotFound;
 
-    boolean markAsRead(Long id, String code) throws NotFound;
+    boolean markAsRead(String id, String code) throws NotFound;
 
-    boolean markAsSend(Long id, String code) throws NotFound;
+    boolean markAsSend(String id, String code) throws NotFound;
 
 }

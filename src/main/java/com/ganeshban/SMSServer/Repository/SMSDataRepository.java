@@ -7,8 +7,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface SMSDataRepository extends JpaRepository<SMSDataEntity, Long> {
+public interface SMSDataRepository extends JpaRepository<SMSDataEntity, String> {
     List<SMSDataEntity> findByClientCode(String code);
+
+    Optional<SMSDataEntity> findByIdAndClientCode(String id, String code);
+
     Optional<SMSDataEntity> findTop1ByClientCodeAndIsSync(String code, boolean isSync);
 
 }

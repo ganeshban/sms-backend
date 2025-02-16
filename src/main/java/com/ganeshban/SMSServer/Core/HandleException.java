@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @ControllerAdvice
@@ -17,13 +18,11 @@ public class HandleException {
     }
 
 
-
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<List<String>> notValidate(MethodArgumentNotValidException myException) {
         List<String> errorList = new ArrayList<>();
         myException.getBindingResult().getAllErrors().forEach((er) -> {
-            errorList.add(er.getDefaultMessage());
+            errorList.add(er.getCodes()[1].split("\\.")[1] + " - " + er.getDefaultMessage());
         });
         return new ResponseEntity<>(errorList, HttpStatus.NOT_FOUND);
     }

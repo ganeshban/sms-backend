@@ -1,27 +1,38 @@
 package com.ganeshban.SMSServer.Entity;
 
-import jakarta.persistence.*;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tblSMSData")
+@Table(name = "tblSmsData")
 @Data
-public class SMSDataEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+@EqualsAndHashCode(callSuper = true)
+public class SMSDataEntity extends BaseEntity{
     @NotNull(message = "must need to provide a receiver")
+    @Column(name = "receiver")
     private String receiver;
+
     @NotNull(message = "must need to provide a message")
-//    @Max(value = 255, message = "length of message must be less then 255")
+    @Column(name = "message")
     private String message;
+
+    @Column(name = "isSent")
     private boolean isSent;
+
+    @Column(name = "isSync")
     private boolean isSync;
 
     @NotNull(message = "must need to provide a client Code")
+    @Column(name = "clientCode")
     private String clientCode;
-    private String sentDateTime;
+
+    @Column(name = "sentTS")
+    private LocalDateTime sentDateTime;
 }

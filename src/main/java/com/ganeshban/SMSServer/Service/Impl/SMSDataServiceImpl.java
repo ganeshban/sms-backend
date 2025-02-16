@@ -2,9 +2,7 @@ package com.ganeshban.SMSServer.Service.Impl;
 
 import com.ganeshban.SMSServer.Core.NotFound;
 import com.ganeshban.SMSServer.Entity.SMSDataEntity;
-import com.ganeshban.SMSServer.Entity.UserEntity;
 import com.ganeshban.SMSServer.Repository.SMSDataRepository;
-import com.ganeshban.SMSServer.Repository.UserRepository;
 import com.ganeshban.SMSServer.Service.SmsDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,33 +12,25 @@ import java.util.List;
 
 @Service
 public class SMSDataServiceImpl implements SmsDataService {
+    private final String NOT_FOUND_MESSAGE = "Record not found, Please try again";
 
     @Autowired
     SMSDataRepository repo;
 
 
     @Autowired
-    UserRepository userRepo;
+    ClientInfoServiceImpl clientInfoService;
 
     @Override
     public SMSDataEntity newMessage(SMSDataEntity request) throws NotFound {
-        userRepo.findByClientCode(request.getClientCode()).orElseThrow(() -> new NotFound("user not found"));
-        SMSDataEntity data = new SMSDataEntity();
-        data.setMessage(request.getMessage());
-        data.setReceiver(request.getReceiver());
-        data.setClientCode(request.getClientCode());
-        repo.save(data);
-        return data;
+        clientInfoService.getClientInfoByClientCode(request.getClientCode());
+        return repo.save(request);
     }
 
     @Override
-    public SMSDataEntity getOne(Long id, String code) throws NotFound {
+    public SMSDataEntity getOne(String id, String code) throws NotFound {
 
-        SMSDataEntity data = repo.findById(id).orElseThrow(() -> new NotFound("data not found"));
-        if (!data.getClientCode().equals(code)) {
-            throw new NotFound("you are not authorized to access this.");
-        }
-        return data;
+        return repo.findByIdAndClientCode(id, code).orElseThrow(() -> new NotFound(NOT_FOUND_MESSAGE));
     }
 
     @Override
@@ -49,7 +39,7 @@ public class SMSDataServiceImpl implements SmsDataService {
     }
 
     @Override
-    public boolean markAsRead(Long id, String code) throws NotFound {
+    public boolean markAsRead(String id, String code) throws NotFound {
         SMSDataEntity data = getOne(id, code);
 
         data.setSync(true);
@@ -59,11 +49,11 @@ public class SMSDataServiceImpl implements SmsDataService {
     }
 
     @Override
-    public boolean markAsSend(Long id, String code) throws NotFound {
+    public boolean markAsSend(String id, String code) throws NotFound {
         SMSDataEntity data = getOne(id, code);
 
         data.setSent(true);
-        data.setSentDateTime(LocalDateTime.now().toString());
+        data.setSentDateTime(LocalDateTime.now());
         repo.save(data);
         return true;
     }
@@ -73,7 +63,8 @@ public class SMSDataServiceImpl implements SmsDataService {
     public SMSDataEntity findByCode(String code) throws NotFound {
 
         return repo
-                .findTop1ByClientCodeAndIsSync(code, false).orElseThrow(() -> new NotFound("data not found"));
+                .findTop1ByClientCodeAndIsSync(code, false).orElseThrow(() -> new NotFound(NOT_FOUND_MESSAGE));
     }
+
 
 }

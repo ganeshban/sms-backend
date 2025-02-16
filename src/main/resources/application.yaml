@@ -1,0 +1,19 @@
+DBName: SMSServer
+spring:
+  profiles:
+    active: local
+  datasource:
+    url: ${DB_URL}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${DB_Username}
+    password: ${DB_Password}
+  jpa:
+    hibernate:
+      ddl-auto: none
+      show-sql: true
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    database-platform: org.hibernate.dialect.MySQLDialect
+server:
+  port: 8081

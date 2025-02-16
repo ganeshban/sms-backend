@@ -2,29 +2,40 @@ package com.ganeshban.SMSServer.Controller;
 
 
 import com.ganeshban.SMSServer.Core.NotFound;
+import com.ganeshban.SMSServer.DTO.SMSDataDTO;
 import com.ganeshban.SMSServer.Entity.SMSDataEntity;
 import com.ganeshban.SMSServer.Service.Impl.SMSDataServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
 @Valid
 @RestController
-@RequestMapping("/sms/{code}")
+@RequestMapping("api/sms/{code}")
 public class SMSDataController {
     @Autowired
     private SMSDataServiceImpl services;
 
+    /**
+     *
+     * @param code, you have to pass the code that was assign to you while opening the account
+     * @return List of SMS data, which is retrieved by passing @param
+     */
     @GetMapping("/all")
-    public List<SMSDataEntity> findAllByCode(@PathVariable String code) throws NotFound {
+    public List<SMSDataEntity> findAllByCode(@PathVariable String code) {
         return services.findAllByCode(code);
     }
 
     @PostMapping("/create")
-    public SMSDataEntity create(@RequestBody @Valid SMSDataEntity request) throws NotFound {
-        return services.newMessage(request);
+    public SMSDataEntity create(@RequestBody @Valid SMSDataDTO request) throws NotFound {
+        return services.newMessage(request.toEntity());
     }
 
 
@@ -34,13 +45,13 @@ public class SMSDataController {
     }
 
     @GetMapping("/read/{id}")
-    public boolean markAsRead(@PathVariable long id, @PathVariable String code) throws NotFound {
+    public boolean markAsRead(@PathVariable String id, @PathVariable String code) throws NotFound {
         return services.markAsRead(id, code);
     }
 
 
     @GetMapping("/send/{id}")
-    public boolean markAsSend(@PathVariable long id, @PathVariable String code) throws NotFound {
+    public boolean markAsSend(@PathVariable String id, @PathVariable String code) throws NotFound {
         return services.markAsSend(id, code);
     }
 

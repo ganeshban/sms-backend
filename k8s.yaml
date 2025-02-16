@@ -1,0 +1,162 @@
+# Create a pod directly
+kind: Pod #Type of the objects
+apiVersion: v1  # version of objects
+metadata:
+  name: Pod Name  #name of the objects
+  labels:
+    name : user-services  #assign a label as name and value of label is user-service
+    env : prod  #assign a label as env and value of label is prod
+  annotations:
+    description: created by Ganesh  # display extra info in log e.g. author, Date Create, purpose of use
+spec:
+  containers:
+    - name: c00 #Name of Container
+      image: ubuntu  #Images in Container
+      command: ["/bin/bash", "-c","while true; do echo Ganesh; sleep 5; done"] # command that will exec inside the container
+      ports:
+        - containerPort: 80   #Port to access container
+      env:
+        - name: userName # name of environment variable that'll be used inside the pod
+          value: Ganesh # value of environment variable that'll be used inside the pod
+  restartPolicy: Never  #Always will be there by default
+  nodeSelector:
+    name: nodeName  # create this particular pod in this node label, to use this nodeSelector we must specify the label first on node.
+
+
+
+---
+
+
+# Create a ReplicationController which will manage the pods
+kind: ReplicationController #Type of the objects
+apiVersion: v1  # version of objects
+metadata:
+  name: Pod Name  #name of the objects
+spec:
+  replicas: 3 # specify num of replication you want
+  selector: #selector will look for selected label pod to replicate
+    name: Ganesh  #name of selector
+  template: #define the template of pods
+    metadata:
+      name: Pod Name  #name of the objects
+      labels:
+        name : Ganesh   #assign a label as name and value of label is user-service
+        env : prod  #assign a label as env and value of label is prod
+      annotations:
+        description: created by Ganesh  # display extra info in log e.g. author, Date Create, purpose of use
+    spec:
+      containers:
+        - name: c00 #Name of Container
+          image: ubuntu  #Images in Container
+          command: ["/bin/bash", "-c","while true; do echo Ganesh; sleep 5; done"] # command that will exec inside the container
+          ports:
+            - containerPort: 80   #Port to access container
+          env:
+            - name: userName # name of environment variable that'll be used inside the pod
+              value: Ganesh # value of environment variable that'll be used inside the pod
+      restartPolicy: Never  #Always will be there by default
+      nodeSelector:
+        name: nodeName  # create this particular pod in this node label, to use this nodeSelector we must specify the label first on node.
+
+---
+
+#Create the ReplicaSet which will manage the pods. ReplicaSet is a Advance version of ReplicationController
+kind: ReplicaSet #Type of the objects
+apiVersion: apps/v1  # version of objects
+metadata:
+  name: Pod Name  #name of the objects
+spec:
+  replicas: 3 # specify num of replication you want
+  selector: #selector will look for selected label pod to replicate
+    matchExpressions: # we need to define expression
+      - {key: name, operator: In, values:[ganesh,Ganesh,ganesh]}  #expression 1
+      - {key: name, operator: In, values:[ganesh,Ganesh,ganesh]} #expression 2
+  template: #define the template of pods
+    metadata:
+      name: Pod Name  #name of the objects
+      labels:
+        name : Ganesh   #assign a label as name and value of label is user-service
+        env : prod  #assign a label as env and value of label is prod
+      annotations:
+        description: created by Ganesh  # display extra info in log e.g. author, Date Create, purpose of use
+    spec:
+      containers:
+        - name: c00 #Name of Container
+          image: ubuntu  #Images in Container
+          command: ["/bin/bash", "-c","while true; do echo Ganesh; sleep 5; done"] # command that will exec inside the container
+          ports:
+            - containerPort: 80   #Port to access container
+          env:
+            - name: userName # name of environment variable that'll be used inside the pod
+              value: Ganesh # value of environment variable that'll be used inside the pod
+      restartPolicy: Never  #Always will be there by default
+      nodeSelector:
+        name: nodeName  # create this particular pod in this node label, to use this nodeSelector we must specify the label first on node.
+
+---
+#Create the Deployment which will manage the ReplicaSet. And replicaSet will manage pods
+kind: Deployment #Type of the objects
+apiVersion: apps/v1  # version of objects
+metadata:
+  name: Pod Name  #name of the objects
+spec:
+  replicas: 3 # specify num of replication you want
+  selector: #selector will look for selected label pod to replicate
+    matchExpressions: # we need to define expression
+      - {key: name, operator: In, values:[ganesh,Ganesh,ganesh]}  #expression 1
+      - {key: name, operator: In, values:[ganesh,Ganesh,ganesh]} #expression 2
+    matchLabels:  # we can also use this tags to select the objects
+      name: Ganesh  # this is another way of selector in key-value pair
+  template: #define the template of pods
+    metadata:
+      name: Pod Name  #name of the objects
+      labels:
+        name : Ganesh   #assign a label as name and value of label is user-service
+        env : prod  #assign a label as env and value of label is prod
+      annotations:
+        description: created by Ganesh  # display extra info in log e.g. author, Date Create, purpose of use
+    spec:
+      containers:
+        - name: c00 #Name of Container
+          image: ubuntu  #Images in Container
+          command: ["/bin/bash", "-c","while true; do echo Ganesh; sleep 5; done"] # command that will exec inside the container
+          volumeMounts: #this will mount the volume inside the container
+            - name: volName #name of the volume
+              mountPath: "/bin/bash"  #dir of this volume
+          ports:
+            - containerPort: 80   #Port to access container
+          env:
+            - name: userName # name of environment variable that'll be used inside the pod
+              value: Ganesh # value of environment variable that'll be used inside the pod
+      restartPolicy: Never  #Always will be there by default
+      nodeSelector:
+        name: nodeName  # create this particular pod in this node label, to use this nodeSelector we must specify the label first on node.
+      volumes:
+        - name: volName #specify the volume in pods
+          emptyDir: {}
+          hostPath:
+            path: /tmp/data/  #path of the host machine
+---
+kind: Service # king of the objects | Use Service for Service objects
+apiVersion: v1
+metadata:
+  name: serviceName # name of the service
+spec:
+  ports:
+    - port: 80  # containers port
+      targetPort: 80  #pods port
+  selector:
+    name: myApp # use this selector to use service. | This service will be applied to all pod which name label (name: myApp)
+  type: ClusterIP #Other Options Are [ClusterIP, NodePort, LoadBalancer, Headless]
+
+# to use this file use this command
+# `kubectl apply -f k8s.yaml`
+
+
+
+
+
+
+
+
+

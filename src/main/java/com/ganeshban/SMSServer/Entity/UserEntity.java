@@ -1,24 +1,22 @@
 package com.ganeshban.SMSServer.Entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "tblUserSMS")
-public class UserEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    private long id;
-    @Column(name = "userName", length = 50, unique = true)
+@Table(name = "tblUsers")
+public class UserEntity  extends BaseEntity{
+    @Column(name = "userName")
     private String userName;
-    @Column(name = "userPassword", length = 50)
+    @Column(name = "userPassword")
     private String password;
-    private String clientCode;
-    private String serverURL;
-    private String senderPhone;
+    @Column(name = "userType")
+    private String userType;
 }
 
 
