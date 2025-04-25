@@ -1,6 +1,6 @@
 package com.ganeshban.SMSServer.Controller;
 
-import com.ganeshban.SMSServer.Core.NotFound;
+import com.ganeshban.SMSServer.config.NotFound;
 import com.ganeshban.SMSServer.DTO.LoginDTO;
 import com.ganeshban.SMSServer.Entity.UserEntity;
 import com.ganeshban.SMSServer.Service.Impl.UserServiceImpl;

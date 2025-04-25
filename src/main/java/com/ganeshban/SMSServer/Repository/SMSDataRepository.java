@@ -12,6 +12,5 @@ public interface SMSDataRepository extends JpaRepository<SMSDataEntity, String> 
 
     Optional<SMSDataEntity> findByIdAndClientCode(String id, String code);
 
-    Optional<SMSDataEntity> findTop1ByClientCodeAndIsSync(String code, boolean isSync);
 
 }

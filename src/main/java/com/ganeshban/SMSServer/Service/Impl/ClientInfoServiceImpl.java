@@ -1,6 +1,6 @@
 package com.ganeshban.SMSServer.Service.Impl;
 
-import com.ganeshban.SMSServer.Core.NotFound;
+import com.ganeshban.SMSServer.config.NotFound;
 import com.ganeshban.SMSServer.Entity.ClientInfo;
 import com.ganeshban.SMSServer.Repository.ClientInfoRepository;
 import com.ganeshban.SMSServer.Service.ClientInfoService;

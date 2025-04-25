@@ -15,11 +15,11 @@ import java.time.LocalDateTime;
 public class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
+    @Column(name = "ID")
     private String id;
     @CreationTimestamp
-    @Column(name = "createdAt",updatable = false)
+    @Column(name = "CREATED_AT",updatable = false)
     private LocalDateTime createdAt;
-    @Column(name = "status")
+    @Column(name = "STATUS")
     private String status = "ACTIVE";
 }

@@ -1,4 +1,4 @@
-package com.ganeshban.SMSServer.Core;
+package com.ganeshban.SMSServer.config;
 
 public class NotFound extends Exception {
    public String message;

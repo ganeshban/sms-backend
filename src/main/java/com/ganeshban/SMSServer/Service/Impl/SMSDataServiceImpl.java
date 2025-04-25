@@ -1,6 +1,7 @@
 package com.ganeshban.SMSServer.Service.Impl;
 
-import com.ganeshban.SMSServer.Core.NotFound;
+import com.ganeshban.SMSServer.DTO.SMSDataDTO;
+import com.ganeshban.SMSServer.config.NotFound;
 import com.ganeshban.SMSServer.Entity.SMSDataEntity;
 import com.ganeshban.SMSServer.Repository.SMSDataRepository;
 import com.ganeshban.SMSServer.Service.SmsDataService;
@@ -59,12 +60,12 @@ public class SMSDataServiceImpl implements SmsDataService {
     }
 
 
-    @Override
-    public SMSDataEntity findByCode(String code) throws NotFound {
-
-        return repo
-                .findTop1ByClientCodeAndIsSync(code, false).orElseThrow(() -> new NotFound(NOT_FOUND_MESSAGE));
-    }
+//    @Override
+//    public SMSDataEntity findByCode(String code) throws NotFound {
+//
+//        return repo
+//                .findTop1ByClientCodeAndIsSync(code, false).orElseThrow(() -> new NotFound(NOT_FOUND_MESSAGE));
+//    }
 
 
 }

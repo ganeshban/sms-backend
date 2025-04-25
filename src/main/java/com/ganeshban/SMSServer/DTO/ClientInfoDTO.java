@@ -1,6 +1,7 @@
 package com.ganeshban.SMSServer.DTO;
 
 import com.ganeshban.SMSServer.Entity.ClientInfo;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
@@ -19,10 +20,12 @@ public class ClientInfoDTO {
     @Length(max = 100, min = 3)
     @NotNull
     @Email
+    @NotBlank
     private String email;
 
     @Length(max = 15, min = 10)
     @NotNull
+    @NotBlank
     private String phone;
 
     @Length(max = 250)
@@ -33,6 +36,7 @@ public class ClientInfoDTO {
 
     @NotNull
     @Length(max = 55, min = 10)
+    @NotBlank
     private String senderPhone;
 
     public ClientInfo toEntity() {

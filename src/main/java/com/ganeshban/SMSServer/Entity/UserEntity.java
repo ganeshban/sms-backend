@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "tblUsers")
+@Table(name = "USERS")
 public class UserEntity  extends BaseEntity{
     @Column(name = "userName")
     private String userName;

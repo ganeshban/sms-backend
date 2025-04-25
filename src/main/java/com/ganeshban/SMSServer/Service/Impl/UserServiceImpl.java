@@ -1,6 +1,6 @@
 package com.ganeshban.SMSServer.Service.Impl;
 
-import com.ganeshban.SMSServer.Core.*;
+import com.ganeshban.SMSServer.config.*;
 import com.ganeshban.SMSServer.DTO.LoginDTO;
 import com.ganeshban.SMSServer.Entity.UserEntity;
 import com.ganeshban.SMSServer.Repository.UserRepository;

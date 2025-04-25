@@ -1,11 +1,12 @@
 package com.ganeshban.SMSServer.Controller;
 
 
-import com.ganeshban.SMSServer.Core.NotFound;
+import com.ganeshban.SMSServer.config.NotFound;
 import com.ganeshban.SMSServer.DTO.SMSDataDTO;
 import com.ganeshban.SMSServer.Entity.SMSDataEntity;
 import com.ganeshban.SMSServer.Service.Impl.SMSDataServiceImpl;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,26 +24,21 @@ public class SMSDataController {
     @Autowired
     private SMSDataServiceImpl services;
 
-    /**
-     *
-     * @param code, you have to pass the code that was assign to you while opening the account
-     * @return List of SMS data, which is retrieved by passing @param
-     */
     @GetMapping("/all")
     public List<SMSDataEntity> findAllByCode(@PathVariable String code) {
         return services.findAllByCode(code);
     }
 
     @PostMapping("/create")
-    public SMSDataEntity create(@RequestBody @Valid SMSDataDTO request) throws NotFound {
+    public SMSDataEntity createNewMessage(@RequestBody @Valid SMSDataDTO request) throws NotFound {
         return services.newMessage(request.toEntity());
     }
 
 
-    @GetMapping
-    public SMSDataEntity getMessage (@PathVariable String code) throws NotFound {
-        return services.findByCode(code);
-    }
+//    @GetMapping
+//    public SMSDataEntity getMessage (@PathVariable String code) throws NotFound {
+//        return services.findByCode(code);
+//    }
 
     @GetMapping("/read/{id}")
     public boolean markAsRead(@PathVariable String id, @PathVariable String code) throws NotFound {

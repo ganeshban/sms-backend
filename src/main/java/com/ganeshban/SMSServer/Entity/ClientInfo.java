@@ -6,39 +6,42 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.UUID;
+
 
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "tblClientInfo")
+@Table(name = "CLIENT_INFO")
 public class ClientInfo extends BaseEntity {
-    @Column(name = "firstName")
+    @Column(name = "FIRST_NAME")
     private String firstName;
 
-    @Column(name = "lastName")
+    @Column(name = "LAST_NAME")
     private String lastName;
 
-    @Column(name = "email")
+    @Column(name = "EMAIL")
     private String email;
 
-    @Column(name = "phone")
+    @Column(name = "PHONE")
     private String phone;
 
-    @Column(name = "address")
+    @Column(name = "ADDRESS")
     private String address;
 
-    @Column(name = "companyName")
+    @Column(name = "COMPANY_NAME")
     private String companyName;
 
-    @Column(name = "clientId")
-    private String clientID = UUID.randomUUID().toString();
+    @Column(name = "CLIENT_ID", unique = true)
+    private String clientID;
 
-    @Column(name = "clientCode")
+    @Column(name = "CLIENT_SECRET")
+    private String clientSecret;
+
+    @Column(name = "CLIENT_CODE", unique = true)
     private String clientCode;
 
-    @Column(name = "senderPhone")
+    @Column(name = "SENDER_PHONE")
     private String senderPhone;
 }
 

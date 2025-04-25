@@ -1,12 +1,10 @@
 package com.ganeshban.SMSServer.Service;
 
-import com.ganeshban.SMSServer.Core.NotFound;
-import com.ganeshban.SMSServer.DTO.LoginDTO;
+import com.ganeshban.SMSServer.DTO.SMSDataDTO;
+import com.ganeshban.SMSServer.config.NotFound;
 import com.ganeshban.SMSServer.Entity.SMSDataEntity;
-import com.ganeshban.SMSServer.Entity.UserEntity;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface SmsDataService {
     SMSDataEntity newMessage(SMSDataEntity request) throws NotFound;
@@ -14,7 +12,7 @@ public interface SmsDataService {
     SMSDataEntity getOne(String id, String code) throws NotFound;
 
     List<SMSDataEntity> findAllByCode(String code);
-    SMSDataEntity findByCode(String code) throws NotFound;
+//    SMSDataEntity findByCode(String code) throws NotFound;
 
     boolean markAsRead(String id, String code) throws NotFound;
 
