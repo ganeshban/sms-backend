@@ -1,9 +1,9 @@
-package com.ganeshban.SMSServer.Controller;
+package com.ganeshban.smsserver.controller;
 
-import com.ganeshban.SMSServer.config.NotFound;
-import com.ganeshban.SMSServer.DTO.LoginDTO;
-import com.ganeshban.SMSServer.Entity.UserEntity;
-import com.ganeshban.SMSServer.Service.Impl.UserServiceImpl;
+import com.ganeshban.smsserver.config.NotFound;
+import com.ganeshban.smsserver.DTO.LoginDTO;
+import com.ganeshban.smsserver.entity.UserEntity;
+import com.ganeshban.smsserver.service.impl.UserServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,10 +1,14 @@
-package com.ganeshban.SMSServer.Controller;
+package com.ganeshban.smsserver.controller;
 
-import com.ganeshban.SMSServer.DTO.ClientInfoDTO;
-import com.ganeshban.SMSServer.Entity.ClientInfo;
-import com.ganeshban.SMSServer.Service.Impl.ClientInfoServiceImpl;
+import com.ganeshban.smsserver.DTO.ClientInfoDTO;
+import com.ganeshban.smsserver.entity.ClientInfoEntity;
+import com.ganeshban.smsserver.service.impl.ClientInfoServiceImpl;
+import com.ganeshban.smsserver.config.NotFound;
+import com.ganeshban.smsserver.model.ClientInfoModel;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,13 +17,26 @@ import org.springframework.web.bind.annotation.RestController;
 @Valid
 @RestController
 @RequestMapping("/rest/client")
+@RequiredArgsConstructor
 public class ClientInfoController {
 
-   @Autowired
-   ClientInfoServiceImpl service;
-   @PostMapping("create")
-    ClientInfo createUsers(@RequestBody @Valid ClientInfoDTO clientInfo){
+    final ClientInfoServiceImpl service;
 
-       return service.save(clientInfo.toEntity());
+    @PostMapping("create")
+    public ClientInfoModel createClientInfo(@RequestBody @Valid ClientInfoDTO clientInfo) {
+
+        return service.save(clientInfo);
+
+    }
+
+    @GetMapping("{code}/model")
+    public ClientInfoModel getClientInfo(@PathVariable String code) throws NotFound {
+        return service.getClientInfoByClientCode(code);
+    }
+
+
+    @GetMapping("{code}")
+    public ClientInfoEntity getClientInfoEntity(@PathVariable String code) throws NotFound {
+        return service.getClientInfoEntityByClientCode(code);
     }
 }

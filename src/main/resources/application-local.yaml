@@ -1,3 +1,14 @@
 DB_Username: root
 DB_Password: abc123456
 DB_URL: jdbc:mysql://localhost:3306/${DBName}?useSSL=true
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        type: trace
+spring:
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true

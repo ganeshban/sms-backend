@@ -1,4 +1,4 @@
-package com.ganeshban.SMSServer.config;
+package com.ganeshban.smsserver.config;
 
 public class NotFound extends Exception {
    public String message;
@@ -8,3 +8,6 @@ public class NotFound extends Exception {
         this.message = message;
     }
 }
+
+
+

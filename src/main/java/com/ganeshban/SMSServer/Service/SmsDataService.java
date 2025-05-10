@@ -1,13 +1,15 @@
-package com.ganeshban.SMSServer.Service;
+package com.ganeshban.smsserver.Service;
 
-import com.ganeshban.SMSServer.DTO.SMSDataDTO;
-import com.ganeshban.SMSServer.config.NotFound;
-import com.ganeshban.SMSServer.Entity.SMSDataEntity;
+import com.ganeshban.smsserver.DTO.SMSDataDTO;
+import com.ganeshban.smsserver.config.NotFound;
+import com.ganeshban.smsserver.entity.SMSDataEntity;
+import com.ganeshban.smsserver.model.SMSDataModel;
 
 import java.util.List;
 
 public interface SmsDataService {
-    SMSDataEntity newMessage(SMSDataEntity request) throws NotFound;
+    SMSDataModel newMessage(SMSDataDTO request, String code) throws NotFound;
+    List<SMSDataModel> newMessageInBulk(List<SMSDataDTO> requests, String code) throws NotFound;
 
     SMSDataEntity getOne(String id, String code) throws NotFound;
 

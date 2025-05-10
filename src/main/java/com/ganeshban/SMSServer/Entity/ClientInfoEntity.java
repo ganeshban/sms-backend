@@ -1,19 +1,20 @@
-package com.ganeshban.SMSServer.Entity;
+package com.ganeshban.smsserver.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+
+import java.util.Set;
 
 
 
-
-@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 @Table(name = "CLIENT_INFO")
-public class ClientInfo extends BaseEntity {
+
+public class ClientInfoEntity extends BaseEntity {
     @Column(name = "FIRST_NAME")
     private String firstName;
 
@@ -32,17 +33,25 @@ public class ClientInfo extends BaseEntity {
     @Column(name = "COMPANY_NAME")
     private String companyName;
 
-    @Column(name = "CLIENT_ID", unique = true)
-    private String clientID;
-
-    @Column(name = "CLIENT_SECRET")
-    private String clientSecret;
-
     @Column(name = "CLIENT_CODE", unique = true)
     private String clientCode;
 
-    @Column(name = "SENDER_PHONE")
-    private String senderPhone;
+    @OneToMany(mappedBy = "clientCode")
+    private Set<SenderEntity> sender;
+
+    @OneToMany(mappedBy = "clientCode")
+    private Set<UserEntity> userEntityList;
+
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
 }
 
 

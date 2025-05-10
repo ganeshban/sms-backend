@@ -1,13 +1,12 @@
-package com.ganeshban.SMSServer.DTO;
+package com.ganeshban.smsserver.DTO;
 
-import com.ganeshban.SMSServer.Entity.ClientInfo;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-import java.util.UUID;
+import java.util.List;
 
 @Data
 public class ClientInfoDTO {
@@ -34,23 +33,6 @@ public class ClientInfoDTO {
     @Length(max = 250)
     private String companyName;
 
-    @NotNull
-    @Length(max = 55, min = 10)
-    @NotBlank
-    private String senderPhone;
+    private List<String> senderList;
 
-    public ClientInfo toEntity() {
-        ClientInfo c = new ClientInfo();
-        c.setFirstName(this.getFirstName());
-        c.setLastName(this.getLastName());
-        c.setEmail(this.getEmail());
-        c.setPhone(this.getPhone());
-        c.setAddress(this.getAddress());
-        c.setCompanyName(this.getCompanyName());
-        c.setSenderPhone(this.getSenderPhone());
-        c.setClientID(UUID.randomUUID().toString());
-        c.setClientCode(UUID.randomUUID().toString());
-
-        return c;
-    }
 }

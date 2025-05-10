@@ -1,10 +1,10 @@
-package com.ganeshban.SMSServer.Service.Impl;
+package com.ganeshban.smsserver.service.impl;
 
-import com.ganeshban.SMSServer.config.*;
-import com.ganeshban.SMSServer.DTO.LoginDTO;
-import com.ganeshban.SMSServer.Entity.UserEntity;
-import com.ganeshban.SMSServer.Repository.UserRepository;
-import com.ganeshban.SMSServer.Service.UserService;
+import com.ganeshban.smsserver.config.*;
+import com.ganeshban.smsserver.DTO.LoginDTO;
+import com.ganeshban.smsserver.entity.UserEntity;
+import com.ganeshban.smsserver.repository.UserRepository;
+import com.ganeshban.smsserver.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;

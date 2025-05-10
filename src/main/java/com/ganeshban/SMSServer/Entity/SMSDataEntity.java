@@ -1,4 +1,4 @@
-package com.ganeshban.SMSServer.Entity;
+package com.ganeshban.smsserver.entity;
 
 
 import jakarta.persistence.Column;
@@ -8,12 +8,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "SMS_DATA")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SMSDataEntity extends BaseEntity{
+public class SMSDataEntity extends BaseEntity {
 
     @Column(name = "RECEIVER")
     private String receiver;
@@ -35,4 +36,18 @@ public class SMSDataEntity extends BaseEntity{
 
     @Column(name = "SENT_TS")
     private LocalDateTime sentDateTime;
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        return  super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode());
+    }
+
+
 }

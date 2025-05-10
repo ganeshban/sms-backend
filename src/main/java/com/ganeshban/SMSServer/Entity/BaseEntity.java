@@ -1,4 +1,4 @@
-package com.ganeshban.SMSServer.Entity;
+package com.ganeshban.smsserver.entity;
 
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
@@ -9,6 +9,9 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
+
+import static com.ganeshban.smsserver.utils.Constants.ACTIVE;
 
 @MappedSuperclass
 @Data
@@ -21,5 +24,17 @@ public class BaseEntity {
     @Column(name = "CREATED_AT",updatable = false)
     private LocalDateTime createdAt;
     @Column(name = "STATUS")
-    private String status = "ACTIVE";
+    private String status = ACTIVE;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BaseEntity that)) return false;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

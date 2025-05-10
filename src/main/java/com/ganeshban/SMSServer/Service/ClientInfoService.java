@@ -1,9 +1,10 @@
-package com.ganeshban.SMSServer.Service;
+package com.ganeshban.smsserver.Service;
 
-import com.ganeshban.SMSServer.config.NotFound;
-import com.ganeshban.SMSServer.Entity.ClientInfo;
+import com.ganeshban.smsserver.DTO.ClientInfoDTO;
+import com.ganeshban.smsserver.config.NotFound;
+import com.ganeshban.smsserver.model.ClientInfoModel;
 
 public interface ClientInfoService {
-    ClientInfo getClientInfoByClientCode(String code) throws NotFound;
-    ClientInfo save(ClientInfo clientInfo);
+    ClientInfoModel getClientInfoByClientCode(String code) throws NotFound;
+    ClientInfoModel save(ClientInfoDTO clientInfoEntity);
 }

@@ -1,4 +1,4 @@
-package com.ganeshban.SMSServer;
+package com.ganeshban.smsserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

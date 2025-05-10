@@ -1,4 +1,4 @@
-package com.ganeshban.SMSServer;
+package com.ganeshban.smsserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

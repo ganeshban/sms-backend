@@ -1,4 +1,4 @@
-package com.ganeshban.SMSServer.config;
+package com.ganeshban.smsserver.config;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,15 +15,19 @@ public class HandleException {
     public ResponseEntity<String> notFoundException(NotFound ex) {
         return new ResponseEntity<>(ex.message, HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(UnAuthorized.class)
+    public ResponseEntity<String> expireToken(UnAuthorized ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<List<String>> notValidate(MethodArgumentNotValidException myException) {
         List<String> errorList = new ArrayList<>();
-        myException.getBindingResult().getAllErrors().forEach((er) -> {
-            errorList.add(er.getCodes()[1].split("\\.")[1] + " - " + er.getDefaultMessage());
-        });
-        return new ResponseEntity<>(errorList, HttpStatus.NOT_FOUND);
+        myException.getBindingResult().getAllErrors().forEach((er) -> errorList
+                .add(er.getCodes()[1]
+                        .split("\\.")[1] + " - " + er.getDefaultMessage()));
+        return new ResponseEntity<>(errorList, HttpStatus.FORBIDDEN);
     }
 
 

@@ -1,31 +1,45 @@
-package com.ganeshban.SMSServer.Service.Impl;
+package com.ganeshban.smsserver.service.impl;
 
-import com.ganeshban.SMSServer.DTO.SMSDataDTO;
-import com.ganeshban.SMSServer.config.NotFound;
-import com.ganeshban.SMSServer.Entity.SMSDataEntity;
-import com.ganeshban.SMSServer.Repository.SMSDataRepository;
-import com.ganeshban.SMSServer.Service.SmsDataService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ganeshban.smsserver.DTO.SMSDataDTO;
+import com.ganeshban.smsserver.entity.SMSDataEntity;
+import com.ganeshban.smsserver.config.NotFound;
+import com.ganeshban.smsserver.repository.SMSDataRepository;
+import com.ganeshban.smsserver.Service.SmsDataService;
+import com.ganeshban.smsserver.model.SMSDataModel;
+import com.ganeshban.smsserver.transformer.SMSDataTransformer;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class SMSDataServiceImpl implements SmsDataService {
     private final String NOT_FOUND_MESSAGE = "Record not found, Please try again";
 
-    @Autowired
-    SMSDataRepository repo;
+    final private SMSDataRepository repo;
 
-
-    @Autowired
-    ClientInfoServiceImpl clientInfoService;
+    final private ClientInfoServiceImpl clientInfoService;
+    final private SMSDataTransformer transformer;
 
     @Override
-    public SMSDataEntity newMessage(SMSDataEntity request) throws NotFound {
-        clientInfoService.getClientInfoByClientCode(request.getClientCode());
-        return repo.save(request);
+    public SMSDataModel newMessage(SMSDataDTO request, String code) throws NotFound {
+        clientInfoService.getClientInfoByClientCode(code);
+        SMSDataEntity entity = transformer.dtoToEntity(request);
+//        entity.setSender("");
+        entity.setClientCode(code);
+        return transformer.toModel(repo.save(entity));
+    }
+
+    @Override
+    public List<SMSDataModel> newMessageInBulk(List<SMSDataDTO> requests, String code) throws NotFound {
+        clientInfoService.getClientInfoByClientCode(code);
+        List<SMSDataEntity> requestEntities = requests.stream().map(transformer::dtoToEntity).toList();
+        requestEntities.forEach(a -> a.setClientCode(code));
+        List<SMSDataEntity> savedEntities = repo.saveAll(requestEntities);
+        return savedEntities.stream().map(transformer::toModel).toList();
+
     }
 
     @Override
@@ -60,12 +74,12 @@ public class SMSDataServiceImpl implements SmsDataService {
     }
 
 
-//    @Override
-//    public SMSDataEntity findByCode(String code) throws NotFound {
-//
-//        return repo
-//                .findTop1ByClientCodeAndIsSync(code, false).orElseThrow(() -> new NotFound(NOT_FOUND_MESSAGE));
-//    }
+    //    @Override
+    //    public SMSDataEntity findByCode(String code) throws NotFound {
+    //
+    //        return repo
+    //                .findTop1ByClientCodeAndIsSync(code, false).orElseThrow(() -> new NotFound(NOT_FOUND_MESSAGE));
+    //    }
 
 
 }

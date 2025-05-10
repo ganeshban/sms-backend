@@ -1,7 +1,6 @@
-package com.ganeshban.SMSServer.DTO;
+package com.ganeshban.smsserver.DTO;
 
-import com.ganeshban.SMSServer.Entity.SMSDataEntity;
-import com.ganeshban.SMSServer.Repository.ClientInfoRepository;
+import com.ganeshban.smsserver.repository.ClientInfoRepository;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -12,11 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class SMSDataDTO {
     @Autowired
     private ClientInfoRepository repository;
-
-
-    @NotNull
-    @Length(max = 20)
-    private String clientCode;
 
     @NotNull
     @NotBlank
@@ -29,15 +23,4 @@ public class SMSDataDTO {
 
     private String sender;
 
-    public SMSDataEntity toEntity() {
-        SMSDataEntity smsData = new SMSDataEntity();
-        smsData.setClientCode(this.getClientCode());
-        smsData.setMessage(this.getMessage());
-        smsData.setReceiver(this.getReceiver());
-        smsData.setSentDateTime(null);
-        smsData.setSync(false);
-        smsData.setSent(false);
-        return smsData;
-
-    }
 }

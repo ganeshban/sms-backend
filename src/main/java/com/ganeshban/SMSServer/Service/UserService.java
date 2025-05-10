@@ -1,8 +1,8 @@
-package com.ganeshban.SMSServer.Service;
+package com.ganeshban.smsserver.Service;
 
-import com.ganeshban.SMSServer.config.NotFound;
-import com.ganeshban.SMSServer.DTO.LoginDTO;
-import com.ganeshban.SMSServer.Entity.UserEntity;
+import com.ganeshban.smsserver.config.NotFound;
+import com.ganeshban.smsserver.DTO.LoginDTO;
+import com.ganeshban.smsserver.entity.UserEntity;
 
 public interface UserService {
     UserEntity getOne(String id) throws NotFound;
