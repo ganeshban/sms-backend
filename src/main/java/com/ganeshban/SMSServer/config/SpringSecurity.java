@@ -24,7 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SpringSecurity {
 
-    final private JwtAuthenticationFilter jwtFilter;
+    private final JwtAuthenticationFilter jwtFilter;
 
 
     @Bean

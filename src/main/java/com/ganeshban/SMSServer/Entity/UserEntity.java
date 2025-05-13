@@ -7,7 +7,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,9 +16,12 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "USERS")
-public class UserEntity  extends BaseEntity{
+public class UserEntity extends BaseEntity {
+
     @Column(name = "USER_NAME", unique = true)
     private String userName;
+
+    @JsonIgnore
     @Column(name = "USER_PASSWORD")
     private String password;
 
@@ -29,7 +31,7 @@ public class UserEntity  extends BaseEntity{
     private ClientInfoEntity clientCode;
 
     @OneToMany(mappedBy = "user")
-    private Set<UserRoleEntity> userRoles;
+    private Set<UserRoleEntity> roles;
 
     @Override
     public int hashCode() {

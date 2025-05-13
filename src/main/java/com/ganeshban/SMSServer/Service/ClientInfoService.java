@@ -1,4 +1,4 @@
-package com.ganeshban.smsserver.Service;
+package com.ganeshban.smsserver.service;
 
 import com.ganeshban.smsserver.DTO.ClientInfoDTO;
 import com.ganeshban.smsserver.config.NotFound;

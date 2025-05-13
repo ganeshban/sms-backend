@@ -11,8 +11,8 @@ import java.util.Date;
 @Component
 public class JwtUtils {
 
-    private final String SECRET_KEY = "fmycustomTokeny-long_notbkasduadaiduads asksiasd38dfakdscakbcasx&*^@cjhch";
-    private final long EXPIRATION_TIME = 1000 * 60 * 60 * 100; // 100 hour
+    private static final String SECRET_KEY = "fmycustomTokeny-long_notbkasduadaiduads asksiasd38dfakdscakbcasx&*^@cjhch";
+    private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 100; // 100 hour
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());

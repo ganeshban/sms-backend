@@ -8,5 +8,4 @@ import lombok.EqualsAndHashCode;
 @Data
 public class SenderModel extends BaseModel{
     private String phone;
-    private ClientInfoModel clientCode;
 }

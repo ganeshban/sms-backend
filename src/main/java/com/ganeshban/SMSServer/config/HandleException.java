@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ControllerAdvice
-public class HandleException {
+public class HandleException extends Exception{
     @ExceptionHandler(NotFound.class)
     public ResponseEntity<String> notFoundException(NotFound ex) {
         return new ResponseEntity<>(ex.message, HttpStatus.NOT_FOUND);
@@ -24,7 +24,7 @@ public class HandleException {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<List<String>> notValidate(MethodArgumentNotValidException myException) {
         List<String> errorList = new ArrayList<>();
-        myException.getBindingResult().getAllErrors().forEach((er) -> errorList
+        myException.getBindingResult().getAllErrors().forEach(er -> errorList
                 .add(er.getCodes()[1]
                         .split("\\.")[1] + " - " + er.getDefaultMessage()));
         return new ResponseEntity<>(errorList, HttpStatus.FORBIDDEN);

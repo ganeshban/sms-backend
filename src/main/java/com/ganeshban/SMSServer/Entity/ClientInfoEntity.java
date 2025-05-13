@@ -37,10 +37,10 @@ public class ClientInfoEntity extends BaseEntity {
     private String clientCode;
 
     @OneToMany(mappedBy = "clientCode")
-    private Set<SenderEntity> sender;
+    private Set<SenderEntity> senders;
 
     @OneToMany(mappedBy = "clientCode")
-    private Set<UserEntity> userEntityList;
+    private Set<UserEntity> users;
 
 
     @Override

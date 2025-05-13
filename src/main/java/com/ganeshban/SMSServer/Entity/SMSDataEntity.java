@@ -1,11 +1,11 @@
 package com.ganeshban.smsserver.entity;
 
 
+import static com.ganeshban.smsserver.utils.Constants.Priority;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -13,7 +13,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "SMS_DATA")
 @Data
-@EqualsAndHashCode(callSuper = true)
 public class SMSDataEntity extends BaseEntity {
 
     @Column(name = "RECEIVER")
@@ -25,8 +24,8 @@ public class SMSDataEntity extends BaseEntity {
     @Column(name = "MESSAGE")
     private String message;
 
-    @Column(name = "IS_SENT")
-    private boolean isSent;
+    @Column(name = "PRIORITY")
+    private Priority priority;
 
     @Column(name = "IS_SYNC")
     private boolean isSync;

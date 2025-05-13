@@ -3,7 +3,7 @@ package com.ganeshban.smsserver.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.List;
+import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -16,6 +16,6 @@ public class ClientInfoModel extends BaseModel {
     private String address;
     private String companyName;
     private String clientCode;
-    private List<SenderModel> senders;
-    private List<UserModel> userModels;
+    private Set<SenderModel> senders;
+    private Set<UserModel> users;
 }

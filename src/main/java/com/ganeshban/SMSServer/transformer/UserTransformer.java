@@ -11,18 +11,17 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring", uses = RoleTransformer.class)
+@Mapper(componentModel = "spring")
 public interface UserTransformer {
 
-    @Mapping(target = "userRoles", expression = "java(mapUserRolesToRoles(entity.getUserRoles()))")
-    @Mapping(source = "clientCode.clientCode",target = "clientCode")
+    @Mapping(target = "roles", expression = "java(mapUserRolesToRoles(entity.getRoles()))")
+    @Mapping(target = "createdAt", ignore = true)
     UserModel toModel(UserEntity entity);
 
-    default Set mapUserRolesToRoles(Set<UserRoleEntity> userRoleEntities) {
+    default Set<RoleModel> mapUserRolesToRoles(Set<UserRoleEntity> userRoleEntities) {
         if (userRoleEntities == null) return Collections.emptySet();
         return userRoleEntities.stream()
                 .filter(a -> a.getStatus().equalsIgnoreCase(Constants.ACTIVE))

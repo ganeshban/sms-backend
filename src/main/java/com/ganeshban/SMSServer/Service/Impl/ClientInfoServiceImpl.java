@@ -3,13 +3,20 @@ package com.ganeshban.smsserver.service.impl;
 import com.ganeshban.smsserver.DTO.ClientInfoDTO;
 import com.ganeshban.smsserver.config.NotFound;
 import com.ganeshban.smsserver.entity.ClientInfoEntity;
+import com.ganeshban.smsserver.entity.UserEntity;
 import com.ganeshban.smsserver.repository.ClientInfoRepository;
-import com.ganeshban.smsserver.Service.ClientInfoService;
+import com.ganeshban.smsserver.repository.UserRepository;
+import com.ganeshban.smsserver.service.ClientInfoService;
 import com.ganeshban.smsserver.model.ClientInfoModel;
 import com.ganeshban.smsserver.transformer.ClientInfoTransformer;
+import com.ganeshban.smsserver.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 import static com.ganeshban.smsserver.utils.Constants.generatePassword;
 
@@ -17,22 +24,27 @@ import static com.ganeshban.smsserver.utils.Constants.generatePassword;
 @RequiredArgsConstructor
 public class ClientInfoServiceImpl implements ClientInfoService {
 
-    final private ClientInfoRepository repository;
+    private final ClientInfoRepository repository;
+    private final UserRepository userRepository;
+    private final ClientInfoTransformer transformer;
+    private final JwtUtils jwtUtils;
 
-    final private ClientInfoTransformer transformer;
 
 
     @Override
     @Cacheable(cacheNames = "clientInfo")
     public ClientInfoModel getClientInfoByClientCode(String code) throws NotFound {
         ClientInfoEntity entity = repository.findByClientCode(code).orElseThrow(() -> new NotFound("User not found with id code."));
-        ClientInfoModel model = transformer.toModel(entity);
-        return model;
+        return transformer.toModel(entity);
     }
 
-    public ClientInfoEntity getClientInfoEntityByClientCode(String code) throws NotFound {
+    public ClientInfoModel getClientInfoEntityByClientCode() throws NotFound {
+        UserDetails currentlyLoggedUser= (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        Optional<UserEntity> userName = userRepository.findByUserName(currentlyLoggedUser.getUsername());
+        String code = userName.get().getClientCode().getClientCode();
         ClientInfoEntity entity = repository.findByClientCode(code).orElseThrow(() -> new NotFound("User not found with id code."));
-        return entity;
+        return transformer.toModel(entity);
     }
 
     @Override

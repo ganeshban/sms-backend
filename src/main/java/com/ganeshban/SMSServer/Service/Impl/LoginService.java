@@ -4,7 +4,6 @@ import com.ganeshban.smsserver.DTO.LoginDTO;
 import com.ganeshban.smsserver.entity.UserEntity;
 import com.ganeshban.smsserver.model.UserModel;
 import com.ganeshban.smsserver.repository.UserRepository;
-import com.ganeshban.smsserver.transformer.RoleTransformer;
 import com.ganeshban.smsserver.transformer.UserTransformer;
 import com.ganeshban.smsserver.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class LoginService {
     private final UserTransformer userTransformer;
-    private final RoleTransformer roleTransformer;
     private final JwtUtils jwtUtils;
     private final UserRepository repository;
 
@@ -25,7 +23,7 @@ public class LoginService {
         UserEntity user = repository.findByUserNameAndPassword(dto.getUsername(), dto.getPassword())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found for " + dto.getUsername()));
         UserModel model = userTransformer.toModel(user);
-        model.setSenders(Set.of("7207519966"));
+//        model.setSenders(Set.of("7207519966"));
         model.setJwtToken(jwtUtils.generateToken(user.getUserName()));
         return model;
 

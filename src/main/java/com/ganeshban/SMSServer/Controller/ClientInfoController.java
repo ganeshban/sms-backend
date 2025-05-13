@@ -28,15 +28,8 @@ public class ClientInfoController {
         return service.save(clientInfo);
 
     }
-
-    @GetMapping("{code}/model")
-    public ClientInfoModel getClientInfo(@PathVariable String code) throws NotFound {
-        return service.getClientInfoByClientCode(code);
-    }
-
-
-    @GetMapping("{code}")
-    public ClientInfoEntity getClientInfoEntity(@PathVariable String code) throws NotFound {
-        return service.getClientInfoEntityByClientCode(code);
+    @GetMapping("/myInfo")
+    public ClientInfoModel getClientInfoEntity() throws NotFound {
+        return service.getClientInfoEntityByClientCode();
     }
 }

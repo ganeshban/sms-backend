@@ -1,19 +1,18 @@
 package com.ganeshban.smsserver.service.impl;
 
-import com.ganeshban.smsserver.config.*;
 import com.ganeshban.smsserver.DTO.LoginDTO;
+import com.ganeshban.smsserver.config.NotFound;
 import com.ganeshban.smsserver.entity.UserEntity;
 import com.ganeshban.smsserver.repository.UserRepository;
-import com.ganeshban.smsserver.Service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ganeshban.smsserver.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-
-    @Autowired
-    UserRepository repo;
+    private final UserRepository repo;
 
     @Override
     @Cacheable(cacheNames = "user")

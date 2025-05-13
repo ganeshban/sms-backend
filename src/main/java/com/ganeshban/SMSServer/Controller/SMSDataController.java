@@ -1,7 +1,7 @@
 package com.ganeshban.smsserver.controller;
 
 
-import com.ganeshban.smsserver.DTO.SMSDataDTO;
+import com.ganeshban.smsserver.dto.SMSDataDTO;
 import com.ganeshban.smsserver.entity.SMSDataEntity;
 import com.ganeshban.smsserver.service.impl.SMSDataServiceImpl;
 import com.ganeshban.smsserver.config.NotFound;
@@ -26,7 +26,7 @@ public class SMSDataController {
     private final SMSDataServiceImpl services;
 
     @GetMapping("/all")
-    public List<SMSDataEntity> findAllByCode(@PathVariable String code) {
+    public List<SMSDataModel> findAllByCode(@PathVariable String code) {
         return services.findAllByCode(code);
     }
 
@@ -35,21 +35,15 @@ public class SMSDataController {
         return services.newMessage(request, code);
     }
 
-
-    @GetMapping
-    public List<SMSDataEntity> getMessage(@PathVariable String code) {
-        return services.findAllByCode(code);
-    }
-
-    @GetMapping("/read/{id}")
-    public boolean markAsRead(@PathVariable String id, @PathVariable String code) throws NotFound {
-        return services.markAsRead(id, code);
+    @GetMapping("/{phone}")
+    public List<SMSDataModel> getMessage(@PathVariable String phone, @PathVariable String code) {
+        return services.findAllSendingMessage(code, phone);
     }
 
 
-    @GetMapping("/send/{id}")
-    public boolean markAsSend(@PathVariable String id, @PathVariable String code) throws NotFound {
-        return services.markAsSend(id, code);
+    @PostMapping("/send")
+    public boolean markAsSend(@RequestBody List<String> ids, @PathVariable String code) throws NotFound {
+        return services.markAsSend(ids, code);
     }
 
 
