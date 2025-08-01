@@ -4,10 +4,10 @@ import com.ganeshban.smsserver.DTO.ClientInfoDTO;
 import com.ganeshban.smsserver.config.NotFound;
 import com.ganeshban.smsserver.entity.ClientInfoEntity;
 import com.ganeshban.smsserver.entity.UserEntity;
+import com.ganeshban.smsserver.model.ClientInfoModel;
 import com.ganeshban.smsserver.repository.ClientInfoRepository;
 import com.ganeshban.smsserver.repository.UserRepository;
 import com.ganeshban.smsserver.service.ClientInfoService;
-import com.ganeshban.smsserver.model.ClientInfoModel;
 import com.ganeshban.smsserver.transformer.ClientInfoTransformer;
 import com.ganeshban.smsserver.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static com.ganeshban.smsserver.utils.Constants.IncludePatternStrategy.NUMBER;
+import static com.ganeshban.smsserver.utils.Constants.IncludePatternStrategy.UPPERCASE;
 import static com.ganeshban.smsserver.utils.Constants.generatePassword;
 
 @Service
@@ -57,7 +59,7 @@ public class ClientInfoServiceImpl implements ClientInfoService {
     }
 
     private String generateClientCode() {
-        return "SMS" + generatePassword(7, true);
+        return "SMS" + generatePassword(7, UPPERCASE, NUMBER);
 
     }
 }

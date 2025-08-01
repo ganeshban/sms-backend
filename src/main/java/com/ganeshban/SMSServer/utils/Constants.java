@@ -2,6 +2,7 @@ package com.ganeshban.smsserver.utils;
 
 import com.ganeshban.smsserver.entity.BaseEntity;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Constants {
@@ -16,21 +17,29 @@ public class Constants {
         return entity.getStatus().equalsIgnoreCase(ACTIVE);
     }
 
-    public static String generatePassword(int length, Boolean... includes) {
+    public enum IncludePatternStrategy {
+        LOWERCASE,
+        UPPERCASE,
+        NUMBER
+    }
+
+    public static String generatePassword(int length, IncludePatternStrategy... includes) {
 
 
         String uCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String lCase = uCase.toLowerCase();
         String num = "0123456789";
         String all = "";
-        if (includes.length >= 1 && Boolean.TRUE.equals(includes[0])) {
-            all = all + uCase;
-        }
-        if (includes.length >= 2 && Boolean.TRUE.equals(includes[1])) {
-            all = all + lCase;
-        }
-        if (includes.length >= 3 && Boolean.TRUE.equals(includes[2])) {
-            all = all + num;
+        if (includes.length > 0) {
+            if (Arrays.asList(includes).contains(IncludePatternStrategy.UPPERCASE)) {
+                all = all + uCase;
+            }
+            if (Arrays.asList(includes).contains(IncludePatternStrategy.LOWERCASE)) {
+                all = all + lCase;
+            }
+            if (Arrays.asList(includes).contains(IncludePatternStrategy.NUMBER)) {
+                all = all + num;
+            }
         }
         if (all.equals("")) {
             all = lCase + uCase + num;
