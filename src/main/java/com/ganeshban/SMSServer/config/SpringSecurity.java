@@ -30,12 +30,29 @@ public class SpringSecurity {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
 
-        return security.securityMatcher("rest/**").authorizeHttpRequests(x -> x.anyRequest().authenticated()).cors(x -> x.configurationSource(corsConfigurationSource())).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).csrf(AbstractHttpConfigurer::disable).addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class).formLogin(AbstractHttpConfigurer::disable).httpBasic(AbstractHttpConfigurer::disable).build();
+        return security
+                .securityMatcher("rest/**")
+                .authorizeHttpRequests(x -> x.anyRequest().authenticated())
+                .cors(x -> x.configurationSource(corsConfigurationSource()))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf(AbstractHttpConfigurer::disable)
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .build();
     }
 
     @Bean
     public SecurityFilterChain filterChainAuthorized(HttpSecurity security) throws Exception {
-        return security.securityMatcher("/auth/**", "login", "logout", "accessDenied").authorizeHttpRequests(auth -> auth.anyRequest().permitAll()).cors(x -> x.configurationSource(corsConfigurationSource())).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).csrf(AbstractHttpConfigurer::disable).formLogin(AbstractHttpConfigurer::disable).httpBasic(AbstractHttpConfigurer::disable).build();
+        return security
+                .securityMatcher("/auth/**", "login", "logout", "accessDenied", "swagger-ui/**")
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+                .cors(x -> x.configurationSource(corsConfigurationSource()))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .build();
     }
 
     @Bean

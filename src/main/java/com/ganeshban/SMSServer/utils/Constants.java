@@ -25,7 +25,18 @@ public class Constants {
 
     public static String generatePassword(int length, IncludePatternStrategy... includes) {
 
-
+//StringBuilder sb= new StringBuilder();
+//sb.append("x");
+//sb.is
+//        char[] c = new char[5];
+//        int i = 300;
+//        String s = String.valueOf(i);
+//        char[] cc = s.toCharArray();
+//        Character ii = cc[0];
+//        Integer.valueOf(ii.toString());
+//
+//
+//        c[0] = 'S';
         String uCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String lCase = uCase.toLowerCase();
         String num = "0123456789";
