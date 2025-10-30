@@ -1,6 +1,5 @@
 package com.ganeshban.smsserver.model;
 
-import com.ganeshban.smsserver.utils.Constants;
 import com.ganeshban.smsserver.utils.Constants.Priority;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

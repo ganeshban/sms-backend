@@ -25,8 +25,6 @@ import java.util.List;
 public class SpringSecurity {
 
     private final JwtAuthenticationFilter jwtFilter;
-
-
     @Bean
     SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
 

@@ -1,4 +1,4 @@
-package com.ganeshban.smsserver.DTO;
+package com.ganeshban.smsserver.dto;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;

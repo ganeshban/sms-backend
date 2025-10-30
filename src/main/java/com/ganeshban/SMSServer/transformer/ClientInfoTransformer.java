@@ -6,9 +6,10 @@ import com.ganeshban.smsserver.entity.ClientInfoEntity;
 import com.ganeshban.smsserver.model.ClientInfoModel;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring", uses = {SenderTransformer.class, UserTransformer.class})
+@Mapper(componentModel = "spring")
 public interface ClientInfoTransformer {
 
     ClientInfoEntity dtoToEntity(ClientInfoDTO dto);
-    ClientInfoModel toModel (ClientInfoEntity entity);
+
+    ClientInfoModel toModel(ClientInfoEntity entity);
 }

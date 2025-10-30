@@ -13,7 +13,7 @@ import java.util.List;
 public class HandleException extends Exception{
     @ExceptionHandler(NotFound.class)
     public ResponseEntity<String> notFoundException(NotFound ex) {
-        return new ResponseEntity<>(ex.message, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(UnAuthorized.class)
     public ResponseEntity<String> expireToken(UnAuthorized ex) {

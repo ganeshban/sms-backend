@@ -1,4 +1,4 @@
-package com.ganeshban.smsserver.DTO;
+package com.ganeshban.smsserver.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
