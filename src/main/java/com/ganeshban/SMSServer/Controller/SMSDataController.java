@@ -1,11 +1,10 @@
 package com.ganeshban.smsserver.controller;
 
 
-import com.ganeshban.smsserver.dto.SMSDataDTO;
-import com.ganeshban.smsserver.entity.SMSDataEntity;
-import com.ganeshban.smsserver.service.impl.SMSDataServiceImpl;
 import com.ganeshban.smsserver.config.NotFound;
+import com.ganeshban.smsserver.dto.SMSDataDTO;
 import com.ganeshban.smsserver.model.SMSDataModel;
+import com.ganeshban.smsserver.service.impl.SMSDataServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,7 +41,7 @@ public class SMSDataController {
 
 
     @PostMapping("/send")
-    public boolean markAsSend(@RequestBody List<String> ids, @PathVariable String code) throws NotFound {
+    public boolean markAsSend(@RequestBody List<String> ids, @PathVariable String code) {
         return services.markAsSend(ids, code);
     }
 

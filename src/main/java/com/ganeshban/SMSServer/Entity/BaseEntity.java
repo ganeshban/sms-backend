@@ -11,7 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import static com.ganeshban.smsserver.utils.Constants.ACTIVE;
+import static com.ganeshban.smsserver.utils.Constants.Keyword.ACTIVE;
 
 @MappedSuperclass
 @Data

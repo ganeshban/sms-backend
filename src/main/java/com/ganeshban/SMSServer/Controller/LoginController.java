@@ -1,6 +1,7 @@
 package com.ganeshban.smsserver.controller;
 
-import com.ganeshban.smsserver.DTO.LoginDTO;
+import com.ganeshban.smsserver.dto.LoginDTO;
+import com.ganeshban.smsserver.dto.RefreshTokenDTO;
 import com.ganeshban.smsserver.service.impl.LoginService;
 import com.ganeshban.smsserver.model.UserModel;
 import jakarta.validation.Valid;
@@ -23,4 +24,12 @@ public class LoginController {
 
         return service.doLogin(request);
     }
+
+    @PostMapping("/refresh-token")
+    public RefreshTokenDTO refreshToken(@RequestBody RefreshTokenDTO request) {
+
+        return service.refreshToken(request);
+    }
+
+
 }

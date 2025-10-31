@@ -2,30 +2,46 @@ package com.ganeshban.smsserver.service.impl;
 
 import com.ganeshban.smsserver.config.NotFound;
 import com.ganeshban.smsserver.dto.SMSDataDTO;
+import com.ganeshban.smsserver.entity.ClientInfoEntity;
 import com.ganeshban.smsserver.entity.SMSDataEntity;
+import com.ganeshban.smsserver.entity.SenderEntity;
 import com.ganeshban.smsserver.model.SMSDataModel;
 import com.ganeshban.smsserver.repository.SMSDataRepository;
 import com.ganeshban.smsserver.service.SmsDataService;
 import com.ganeshban.smsserver.transformer.SMSDataTransformer;
-import com.ganeshban.smsserver.utils.Constants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static com.ganeshban.smsserver.utils.Constants.Keyword.ACTIVE;
+import static com.ganeshban.smsserver.utils.Constants.Keyword.AUTO;
+import static com.ganeshban.smsserver.utils.Constants.ErrorMessage.SENDER_NOT_REGISTER;
 
 @RequiredArgsConstructor
 @Service
 public class SMSDataServiceImpl implements SmsDataService {
-    private static final String NOT_FOUND_MESSAGE = "Record not found, Please try again";
-
     private final SMSDataRepository repo;
     private final ClientInfoServiceImpl clientInfoService;
     private final SMSDataTransformer transformer;
 
     @Override
     public SMSDataModel newMessage(SMSDataDTO request, String code) throws NotFound {
-        clientInfoService.getClientInfoByClientCode(code);
+
+
+        ClientInfoEntity clientInformation = clientInfoService.getClientInfoByClientCode(code);
+        Set<String> allowedSender = clientInformation.getSenders()
+                .stream()
+                .filter(x -> x.getStatus().equals(ACTIVE))
+                .map(SenderEntity::getPhone)
+                .collect(Collectors.toSet());
+        allowedSender.add(AUTO);
+        if (!allowedSender.contains(request.getSender())) {
+            throw new NotFound(SENDER_NOT_REGISTER);
+        }
         SMSDataEntity entity = transformer.dtoToEntity(request);
         entity.setClientCode(code);
         return transformer.toModel(repo.save(entity));
@@ -50,7 +66,13 @@ public class SMSDataServiceImpl implements SmsDataService {
 
     @Override
     public List<SMSDataModel> findAllSendingMessage(String code, String sender) {
-        List<SMSDataEntity> smsList = repo.findAllActiveSMSByCode(code);
+        List<SMSDataEntity> smsList = repo.findNewSMSByCodeAndSender(code, sender);
+        smsList.forEach(x -> {
+            x.setPriority(null);
+            x.setClientCode(null);
+            x.setStatus(null);
+            x.setCreatedAt(null);
+        });
         return smsList.stream().map(transformer::toModel).toList();
     }
 

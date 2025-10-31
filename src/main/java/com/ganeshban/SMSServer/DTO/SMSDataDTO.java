@@ -1,20 +1,19 @@
 package com.ganeshban.smsserver.dto;
 
-import com.ganeshban.smsserver.repository.ClientInfoRepository;
-
-import static com.ganeshban.smsserver.utils.Constants.Priority;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+
+import static com.ganeshban.smsserver.utils.Constants.Keyword.AUTO;
+import static com.ganeshban.smsserver.utils.Constants.Priority;
 
 @Data
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class SMSDataDTO {
-
-    private final ClientInfoRepository repository;
 
     @NotNull
     @NotBlank
@@ -25,6 +24,6 @@ public class SMSDataDTO {
     @Length(min = 10, max = 15)
     private String receiver;
     private Priority priority;
-    private String sender;
+    private String sender = AUTO;
 
 }

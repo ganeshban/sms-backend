@@ -3,6 +3,7 @@ package com.ganeshban.smsserver.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,11 +26,28 @@ import java.util.List;
 public class SpringSecurity {
 
     private final JwtAuthenticationFilter jwtFilter;
-    @Bean
-    SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
+    private final String[] allowedURL = {"/login", "/logout", "/auth/**", "accessDenied", "swagger-ui/**", "/refresh-token"};
 
+
+    @Bean
+    @Order(1)
+    public SecurityFilterChain filterChainAuthorized(HttpSecurity security) throws Exception {
         return security
-                .securityMatcher("rest/**")
+                .securityMatcher(allowedURL)
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+                .cors(x -> x.configurationSource(corsConfigurationSource()))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .build();
+    }
+
+    @Bean
+    @Order(2)
+    SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
+        return security
+                .securityMatcher("*")
                 .authorizeHttpRequests(x -> x.anyRequest().authenticated())
                 .cors(x -> x.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -40,18 +58,6 @@ public class SpringSecurity {
                 .build();
     }
 
-    @Bean
-    public SecurityFilterChain filterChainAuthorized(HttpSecurity security) throws Exception {
-        return security
-                .securityMatcher("/auth/**", "login", "logout", "accessDenied", "swagger-ui/**")
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-                .cors(x -> x.configurationSource(corsConfigurationSource()))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .csrf(AbstractHttpConfigurer::disable)
-                .formLogin(AbstractHttpConfigurer::disable)
-                .httpBasic(AbstractHttpConfigurer::disable)
-                .build();
-    }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
