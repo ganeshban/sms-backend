@@ -30,8 +30,13 @@ public class SMSDataController {
     }
 
     @PostMapping("/create")
-    public SMSDataModel createNewMessage(@RequestBody @Valid SMSDataDTO request, @PathVariable String code) throws NotFound {
+    public List<SMSDataModel> createNewMessage(@RequestBody @Valid SMSDataDTO request, @PathVariable String code) throws NotFound {
         return services.newMessage(request, code);
+    }
+
+    @PostMapping("/create/bulk")
+    public List<SMSDataModel> createNewMessage(@RequestBody @Valid List<SMSDataDTO> request, @PathVariable String code) throws NotFound {
+        return services.newMessageInBulk(request, code);
     }
 
     @GetMapping("/{phone}")

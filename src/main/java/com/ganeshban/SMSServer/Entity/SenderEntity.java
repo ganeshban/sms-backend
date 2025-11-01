@@ -18,6 +18,9 @@ public class SenderEntity extends BaseEntity {
     @Column(name = "PHONE", unique = true)
     private String phone;
 
+    @Column(name = "DEVICE")
+    private String device;
+
     @ManyToOne
     @JoinColumn(name = "CLIENT_CODE", referencedColumnName = "CLIENT_CODE")
     @JsonIgnore

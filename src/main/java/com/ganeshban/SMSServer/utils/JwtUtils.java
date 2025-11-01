@@ -12,7 +12,7 @@ import java.util.Date;
 public class JwtUtils {
 
     private static final String SECRET_KEY = "fmycustXomTokeny-long_notbkasduadaiduads asksiasd38dfakdscakbcasx&*^@cjhch";
-    private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 100; // 100 hour
+    private static final long EXPIRATION_TIME = 1000L * 60 * 60 * 4; // 4 hour
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());

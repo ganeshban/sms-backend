@@ -1,7 +1,6 @@
 package com.ganeshban.smsserver.entity;
 
 
-import static com.ganeshban.smsserver.utils.Constants.Priority;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -10,10 +9,15 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import static com.ganeshban.smsserver.utils.Constants.Priority;
+
 @Entity
 @Table(name = "SMS_DATA")
 @Data
 public class SMSDataEntity extends BaseEntity {
+
+    @Column(name = "SEQ_NUM", unique = true, updatable = false, insertable = false)
+    private long sequenceNumber;
 
     @Column(name = "RECEIVER")
     private String receiver;
@@ -36,11 +40,13 @@ public class SMSDataEntity extends BaseEntity {
     @Column(name = "SENT_TS")
     private LocalDateTime sentDateTime;
 
+    @Column(name = "CREATED_BY")
+    private String createBy;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        return  super.equals(o);
+        return super.equals(o);
     }
 
     @Override

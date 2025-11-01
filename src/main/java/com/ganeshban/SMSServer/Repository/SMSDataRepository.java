@@ -25,5 +25,4 @@ public interface SMSDataRepository extends JpaRepository<SMSDataEntity, String> 
     @Query(NEW_SMS_DATA_BY_CODE_AND_SENDER)
     List<SMSDataEntity> findNewSMSByCodeAndSender(String code, String sender);
 
-
 }

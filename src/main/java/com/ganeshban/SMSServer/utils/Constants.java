@@ -7,17 +7,18 @@ import java.util.Random;
 
 import static com.ganeshban.smsserver.utils.Constants.Keyword.ACTIVE;
 
-public final class Constants {
-    static Random rand = new Random();
+public interface Constants {
+    Random rand = new Random();
 
-    public interface ErrorMessage {
+    interface ErrorMessage {
         String USER_NOT_FOUND = "User Not found. Please try again.";
         String USER_NOT_FOUND_FOR = "User not found for ";
         String SENDER_NOT_REGISTER = "Sender is not register, Please re-register the sender or use correct one.";
+        String INVALID_RECIPIENT = "Invalid recipient phone number : ";
         String INCORRECT_USERNAME_AND_PASSWORD = "username and password are incorrect.";
     }
 
-    public interface Keyword {
+    interface Keyword {
 
         String AUTO = "AUTO";
         String ACTIVE = "ACTIVE";
@@ -26,17 +27,17 @@ public final class Constants {
     }
 
 
-    public static boolean isActive(BaseEntity entity) {
+    static boolean isActive(BaseEntity entity) {
         return entity.getStatus().equalsIgnoreCase(ACTIVE);
     }
 
-    public enum IncludePatternStrategy {
+    enum IncludePatternStrategy {
         LOWERCASE,
         UPPERCASE,
         NUMBER
     }
 
-    public static String generatePassword(int length, IncludePatternStrategy... includes) {
+    static String generatePassword(int length, IncludePatternStrategy... includes) {
 
         String uCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String lCase = uCase.toLowerCase();
@@ -65,7 +66,7 @@ public final class Constants {
     }
 
 
-    public enum Priority {
+    enum Priority {
         VERY_HIGH,
         HIGH,
         MEDIUM,
@@ -74,9 +75,9 @@ public final class Constants {
     }
 
 
-    public interface SqlQueries {
+    interface SqlQueries {
         String SMS_DATA_BY_ID_AND_CODE = "Select a from SMSDataEntity a where id in ( :ids ) and clientCode = :code";
         String NEW_SMS_DATA_BY_CODE = "Select a from SMSDataEntity a where clientCode = :code and status='ACTIVE' and sentDateTime is null order by priority ASC";
-        String NEW_SMS_DATA_BY_CODE_AND_SENDER = "Select a from SMSDataEntity a where clientCode = :code and status='ACTIVE' and sender in  ('AUTO', :sender) and sentDateTime is null order by priority ASC";
+        String NEW_SMS_DATA_BY_CODE_AND_SENDER = "Select a from SMSDataEntity a where clientCode = :code and status='ACTIVE' and sender in  (:sender) and sentDateTime is null order by priority, sequenceNumber";
     }
 }

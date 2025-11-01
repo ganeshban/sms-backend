@@ -1,11 +1,11 @@
 package com.ganeshban.smsserver.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.validator.constraints.Length;
+
+import java.util.List;
 
 import static com.ganeshban.smsserver.utils.Constants.Keyword.AUTO;
 import static com.ganeshban.smsserver.utils.Constants.Priority;
@@ -15,15 +15,13 @@ import static com.ganeshban.smsserver.utils.Constants.Priority;
 @RequiredArgsConstructor
 public class SMSDataDTO {
 
-    @NotNull
-    @NotBlank
-    @Length(max = 160)
     private String message;
+    private List<String> messages;
 
     @NotNull
-    @Length(min = 10, max = 15)
     private String receiver;
-    private Priority priority;
+
+    private Priority priority = Priority.VERY_LOW;
     private String sender = AUTO;
 
 }

@@ -25,8 +25,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SpringSecurity {
 
+
     private final JwtAuthenticationFilter jwtFilter;
-    private final String[] allowedURL = {"/login", "/logout", "/auth/**", "accessDenied", "swagger-ui/**", "/refresh-token"};
+    private final String[] allowedURL = {"/login", "/logout", "/auth/**", "accessDenied", "swagger-ui/**", "/refresh-token","/ping"};
 
 
     @Bean

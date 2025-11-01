@@ -7,9 +7,13 @@ import com.ganeshban.smsserver.model.SMSDataModel;
 import java.util.List;
 
 public interface SmsDataService {
-    SMSDataModel newMessage(SMSDataDTO request, String code) throws NotFound;
+    List<SMSDataModel> newMessage(SMSDataDTO request, String code) throws NotFound;
+
     List<SMSDataModel> newMessageInBulk(List<SMSDataDTO> requests, String code) throws NotFound;
+
     List<SMSDataModel> findAllByCode(String code);
+
     List<SMSDataModel> findAllSendingMessage(String code, String sender);
+
     boolean markAsSend(List<String> ids, String code) throws NotFound;
 }
