@@ -1,5 +1,6 @@
 package com.ganeshban.smsserver.config;
 
+import com.ganeshban.smsserver.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -19,22 +21,22 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+import static com.ganeshban.smsserver.utils.Constants.whiteListURL;
+
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SpringSecurity {
 
-
-    private final JwtAuthenticationFilter jwtFilter;
-    private final String[] allowedURL = {"/login", "/logout", "/auth/**", "accessDenied", "swagger-ui/**", "/refresh-token","/ping"};
-
+    private final JwtUtils jwtUtil;
+    private final UserDetailsService userDetailsService;
 
     @Bean
-    @Order(1)
+    @Order(2)
     public SecurityFilterChain filterChainAuthorized(HttpSecurity security) throws Exception {
         return security
-                .securityMatcher(allowedURL)
+                .securityMatcher(whiteListURL)
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
                 .cors(x -> x.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -45,15 +47,17 @@ public class SpringSecurity {
     }
 
     @Bean
-    @Order(2)
+    @Order(3)
     SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
+        JwtAuthenticationFilter jwtFilter = new JwtAuthenticationFilter(jwtUtil, userDetailsService);
         return security
-                .securityMatcher("*")
+                .securityMatcher("/api/**")
                 .authorizeHttpRequests(x -> x.anyRequest().authenticated())
                 .cors(x -> x.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+//                .exceptionHandling(ex -> ex.authenticationEntryPoint(new SMSAuthenticationEntryPoint()))
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .build();

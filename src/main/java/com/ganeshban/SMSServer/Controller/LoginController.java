@@ -1,5 +1,6 @@
 package com.ganeshban.smsserver.controller;
 
+import com.ganeshban.smsserver.config.UnAuthorized;
 import com.ganeshban.smsserver.dto.LoginDTO;
 import com.ganeshban.smsserver.dto.RefreshTokenDTO;
 import com.ganeshban.smsserver.model.UserModel;
@@ -30,7 +31,7 @@ public class LoginController {
     }
 
     @PostMapping("/refresh-token")
-    public RefreshTokenDTO refreshToken(@RequestBody RefreshTokenDTO request) {
+    public RefreshTokenDTO refreshToken(@RequestBody RefreshTokenDTO request) throws UnAuthorized {
 
         return service.refreshToken(request);
     }

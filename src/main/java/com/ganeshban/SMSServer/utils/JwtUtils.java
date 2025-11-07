@@ -1,8 +1,11 @@
 package com.ganeshban.smsserver.utils;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -27,16 +30,23 @@ public class JwtUtils {
                 .compact();
     }
 
-    public String extractUsername(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+    public String extractUsername(String token) throws AuthenticationException {
+        String username;
+        try {
+            username =
+                    Jwts.parserBuilder()
+                            .setSigningKey(getSigningKey())
+                            .build()
+                            .parseClaimsJws(token)
+                            .getBody()
+                            .getSubject();
+        } catch (ExpiredJwtException exception) {
+            throw new UsernameNotFoundException(exception.getMessage(), exception);
+        }
+        return username;
     }
 
-    public boolean isTokenValid(String token, String username) {
+    public boolean isTokenValid(String token, String username) throws AuthenticationException {
         return username.equals(extractUsername(token)) && !isTokenExpired(token);
     }
 

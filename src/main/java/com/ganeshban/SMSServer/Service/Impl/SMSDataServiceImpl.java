@@ -94,6 +94,22 @@ public class SMSDataServiceImpl implements SmsDataService {
         }
     }
 
+    private List<String> validateMessage(String message, List<String> messages) throws NotFound {
+
+        List<String> list = new ArrayList<>();
+        if (message != null && !message.isBlank()) {
+            list.add(message);
+        }
+        if (messages != null && !messages.isEmpty()) {
+            list.addAll(messages);
+        }
+        if (list.isEmpty()) {
+            throw new NotFound("Please Provide the message.");
+        }
+
+        return list;
+    }
+
     private List<String> getAllowedSender(String code) throws NotFound {
         ClientInfoEntity clientInformation = clientInfoService.getClientInfoByClientCode(code);
         List<String> senders = new ArrayList<>(clientInformation.getSenders()
@@ -113,11 +129,8 @@ public class SMSDataServiceImpl implements SmsDataService {
 
         List<SMSDataEntity> allMessage = new ArrayList<>();
         for (SMSDataDTO sms : messages) {
-            List<String> allTexts = new ArrayList<>();
-            allTexts.add(sms.getMessage());
-            if (sms.getMessages() != null && !sms.getMessages().isEmpty()) {
-                allTexts.addAll(sms.getMessages());
-            }
+            List<String> allTexts = validateMessage(sms.getMessage(), sms.getMessages());
+
             Set<String> receivers = Arrays.stream(sms.getReceiver().split(",")).filter(x -> !x.isBlank()).map(String::strip).collect(Collectors.toSet());
             for (String receiver : receivers) {
                 validateReceiver(receiver);

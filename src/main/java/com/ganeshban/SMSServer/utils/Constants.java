@@ -24,6 +24,7 @@ public interface Constants {
         String ACTIVE = "ACTIVE";
         String IN_ACTIVE = "IN_ACTIVE";
         String MAPPER_NAME = "spring";
+        String AUTH_ERROR_KEY = "AUTH_ERROR";
     }
 
 
@@ -80,4 +81,6 @@ public interface Constants {
         String NEW_SMS_DATA_BY_CODE = "Select a from SMSDataEntity a where clientCode = :code and status='ACTIVE' and sentDateTime is null order by priority ASC";
         String NEW_SMS_DATA_BY_CODE_AND_SENDER = "Select a from SMSDataEntity a where clientCode = :code and status='ACTIVE' and sender in  (:sender) and sentDateTime is null order by priority, sequenceNumber";
     }
+
+     String[] whiteListURL = {"/login", "/logout", "/auth/**", "accessDenied", "swagger-ui/**", "/refresh-token", "/ping"};
 }
