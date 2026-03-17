@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 
 @Valid
@@ -30,10 +33,10 @@ public class LoginController {
         return service.doLogin(request);
     }
 
-    @PostMapping("/refresh-token")
-    public RefreshTokenDTO refreshToken(@RequestBody RefreshTokenDTO request) throws UnAuthorized {
+    @GetMapping("/rest/refresh-token")
+    public RefreshTokenDTO refreshToken(@RequestHeader("Authorization") String auth) {
 
-        return service.refreshToken(request);
+        return service.refreshToken(auth);
     }
 
     @GetMapping("/ping")

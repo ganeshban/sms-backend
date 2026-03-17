@@ -55,7 +55,7 @@ public interface Constants {
                 all = all + num;
             }
         }
-        if (all.equals("")) {
+        if (all.isEmpty()) {
             all = lCase + uCase + num;
         }
         StringBuilder sb = new StringBuilder(length);
@@ -79,8 +79,8 @@ public interface Constants {
     interface SqlQueries {
         String SMS_DATA_BY_ID_AND_CODE = "Select a from SMSDataEntity a where id in ( :ids ) and clientCode = :code";
         String NEW_SMS_DATA_BY_CODE = "Select a from SMSDataEntity a where clientCode = :code and status='ACTIVE' and sentDateTime is null order by priority ASC";
-        String NEW_SMS_DATA_BY_CODE_AND_SENDER = "Select a from SMSDataEntity a where clientCode = :code and status='ACTIVE' and sender in  (:sender) and sentDateTime is null order by priority, sequenceNumber";
+        String NEW_SMS_DATA_BY_CODE_AND_SENDER = "Select a from SMSDataEntity a where clientCode = :code and status='ACTIVE' and sentAfterDateTime <= CURRENT_TIMESTAMP and sender in  (:sender) and sentDateTime is null order by priority, sequenceNumber";
     }
 
-     String[] whiteListURL = {"/login", "/logout", "/auth/**", "accessDenied", "swagger-ui/**", "/refresh-token", "/ping"};
+    String[] whiteListURL = {"/login", "/logout", "/auth/**", "accessDenied", "swagger-ui/**", "/ping"};
 }

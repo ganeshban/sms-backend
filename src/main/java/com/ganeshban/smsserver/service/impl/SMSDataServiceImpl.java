@@ -56,8 +56,14 @@ public class SMSDataServiceImpl implements SmsDataService {
     }
 
     @Override
-    public List<SMSDataModel> findAllSendingMessage(String code, String sender) {
+    public List<SMSDataModel> findAllSendingMessage(String code, String sender, boolean hold) {
         List<SMSDataEntity> smsList = repo.findNewSMSByCodeAndSender(code, sender);
+
+        if (hold) {
+            smsList.forEach(x -> x.setSentAfterDateTime(LocalDateTime.now().plusMinutes(1)));
+            repo.saveAll(smsList);
+        }
+
         smsList.forEach(x -> {
             x.setPriority(null);
             x.setClientCode(null);

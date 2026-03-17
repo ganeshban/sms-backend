@@ -13,7 +13,7 @@ public interface SmsDataService {
 
     List<SMSDataModel> findAllByCode(String code);
 
-    List<SMSDataModel> findAllSendingMessage(String code, String sender);
+    List<SMSDataModel> findAllSendingMessage(String code, String sender, boolean hold);
 
     boolean markAsSend(List<String> ids, String code) throws NotFound;
 }

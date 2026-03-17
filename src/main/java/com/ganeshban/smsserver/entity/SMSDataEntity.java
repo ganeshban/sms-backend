@@ -5,6 +5,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -39,6 +40,10 @@ public class SMSDataEntity extends BaseEntity {
 
     @Column(name = "SENT_TS")
     private LocalDateTime sentDateTime;
+
+    @CreationTimestamp
+    @Column(name = "SENT_AFTER")
+    private LocalDateTime sentAfterDateTime;
 
     @Column(name = "CREATED_BY")
     private String createBy;

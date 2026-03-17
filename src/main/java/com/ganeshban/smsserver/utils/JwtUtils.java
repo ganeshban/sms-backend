@@ -59,4 +59,10 @@ public class JwtUtils {
                 .getExpiration();
         return expiration.before(new Date());
     }
+    public String encryptToken(String token) {
+        return token;
+    }
+    public String decryptToken(String token) {
+        return token;
+    }
 }

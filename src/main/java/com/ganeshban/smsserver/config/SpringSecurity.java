@@ -51,7 +51,7 @@ public class SpringSecurity {
     SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
         JwtAuthenticationFilter jwtFilter = new JwtAuthenticationFilter(jwtUtil, userDetailsService);
         return security
-                .securityMatcher("/api/**")
+                .securityMatcher("/api/**","/rest/**")
                 .authorizeHttpRequests(x -> x.anyRequest().authenticated())
                 .cors(x -> x.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

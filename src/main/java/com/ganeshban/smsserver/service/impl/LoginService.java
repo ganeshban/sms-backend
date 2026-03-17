@@ -30,8 +30,8 @@ public class LoginService {
 
     }
 
-    public RefreshTokenDTO refreshToken(RefreshTokenDTO request) {
-        var username = jwtUtils.extractUsername(request.getToken());
+    public RefreshTokenDTO refreshToken(String auth) {
+        var username = jwtUtils.extractUsername(auth.substring(7));
         return new RefreshTokenDTO(jwtUtils.generateToken(username));
     }
 }

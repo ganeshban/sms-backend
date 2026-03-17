@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -40,8 +41,8 @@ public class SMSDataController {
     }
 
     @GetMapping("/{phone}")
-    public List<SMSDataModel> getMessage(@PathVariable String phone, @PathVariable String code) {
-        return services.findAllSendingMessage(code, phone);
+    public List<SMSDataModel> getMessage(@PathVariable String phone, @PathVariable String code, @RequestParam(name = "hold", required = false, defaultValue = "false") boolean hold) {
+        return services.findAllSendingMessage(code, phone, hold);
     }
 
 
