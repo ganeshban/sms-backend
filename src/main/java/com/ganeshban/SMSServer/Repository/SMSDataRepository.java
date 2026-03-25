@@ -2,6 +2,7 @@ package com.ganeshban.smsserver.repository;
 
 import com.ganeshban.smsserver.entity.SMSDataEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +13,7 @@ import static com.ganeshban.smsserver.utils.Constants.SqlQueries.NEW_SMS_DATA_BY
 import static com.ganeshban.smsserver.utils.Constants.SqlQueries.SMS_DATA_BY_ID_AND_CODE;
 
 @Repository
-public interface SMSDataRepository extends JpaRepository<SMSDataEntity, String> {
+public interface SMSDataRepository extends JpaRepository<SMSDataEntity, String>, JpaSpecificationExecutor<SMSDataEntity> {
 
     List<SMSDataEntity> findByClientCode(String code);
 

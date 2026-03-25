@@ -4,6 +4,7 @@ package com.ganeshban.smsserver.controller;
 import com.ganeshban.smsserver.config.NotFound;
 import com.ganeshban.smsserver.dto.SMSDataDTO;
 import com.ganeshban.smsserver.model.SMSDataModel;
+import com.ganeshban.smsserver.model.search.SearchRequest;
 import com.ganeshban.smsserver.service.impl.SMSDataServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +25,9 @@ public class SMSDataController {
 
     private final SMSDataServiceImpl services;
 
-    @GetMapping("/all")
-    public List<SMSDataModel> findAllByCode(@PathVariable String code) {
-        return services.findAllByCode(code);
+    @PostMapping("/all")
+    public List<SMSDataModel> findAllByCode(@PathVariable String code, @RequestBody SearchRequest request) {
+        return services.findAllByCode(code, request);
     }
 
     @PostMapping("/create")

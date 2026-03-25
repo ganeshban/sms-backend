@@ -6,10 +6,13 @@ import com.ganeshban.smsserver.entity.ClientInfoEntity;
 import com.ganeshban.smsserver.entity.SMSDataEntity;
 import com.ganeshban.smsserver.entity.SenderEntity;
 import com.ganeshban.smsserver.model.SMSDataModel;
+import com.ganeshban.smsserver.model.search.SearchRequest;
 import com.ganeshban.smsserver.repository.SMSDataRepository;
 import com.ganeshban.smsserver.service.SmsDataService;
+import com.ganeshban.smsserver.service.spec.BaseSpec;
 import com.ganeshban.smsserver.transformer.SMSDataTransformer;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -50,8 +53,12 @@ public class SMSDataServiceImpl implements SmsDataService {
     }
 
     @Override
-    public List<SMSDataModel> findAllByCode(String code) {
-        List<SMSDataEntity> entities = repo.findByClientCode(code);
+    public List<SMSDataModel> findAllByCode(String code, SearchRequest request) {
+        BaseSpec<SMSDataEntity> spec = new BaseSpec<>();
+        Specification<SMSDataEntity> smsDataEntitySpecification = spec.buildCriteria(request);
+        List<SMSDataEntity> entities = repo.findAll(smsDataEntitySpecification);
+//        repo.findAll();
+//        List<SMSDataEntity> entities = repo.findByClientCode(code);
         return entities.stream().map(transformer::toModel).toList();
     }
 
