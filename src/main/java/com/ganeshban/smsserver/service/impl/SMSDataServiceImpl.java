@@ -2,11 +2,11 @@ package com.ganeshban.smsserver.service.impl;
 
 import com.ganeshban.smsserver.config.NotFound;
 import com.ganeshban.smsserver.dto.SMSDataDTO;
-import com.ganeshban.smsserver.entity.ClientInfoEntity;
 import com.ganeshban.smsserver.entity.SMSDataEntity;
-import com.ganeshban.smsserver.entity.SenderEntity;
+import com.ganeshban.smsserver.model.ConfigurationModel;
 import com.ganeshban.smsserver.model.SMSDataModel;
 import com.ganeshban.smsserver.repository.SMSDataRepository;
+import com.ganeshban.smsserver.service.ConfigurationService;
 import com.ganeshban.smsserver.service.SmsDataService;
 import com.ganeshban.smsserver.transformer.SMSDataTransformer;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -32,6 +33,7 @@ import static com.ganeshban.smsserver.utils.Constants.Keyword.AUTO;
 public class SMSDataServiceImpl implements SmsDataService {
     private final SMSDataRepository repo;
     private final ClientInfoServiceImpl clientInfoService;
+    private final ConfigurationService configurationService;
     private final SMSDataTransformer transformer;
 
     private String senderPhone = "";
@@ -116,15 +118,15 @@ public class SMSDataServiceImpl implements SmsDataService {
         return list;
     }
 
-    private List<String> getAllowedSender(String code) throws NotFound {
-        ClientInfoEntity clientInformation = clientInfoService.getClientInfoByClientCode(code);
-        List<String> senders = new ArrayList<>(clientInformation.getSenders()
-                .stream()
-                .filter(x -> x.getStatus().equals(ACTIVE))
-                .map(SenderEntity::getPhone)
+    private List<String> getAllowedSender(String code) {
+        List<ConfigurationModel> list = configurationService.getConfigModelByClientCode(code);
+        List<String> senders = new ArrayList<>(list.stream()
+                .filter(x -> x.getStatus().equalsIgnoreCase(ACTIVE))
+                .map(ConfigurationModel::getSenderPhoneNumber)
+                .filter(Objects::nonNull)
                 .toList());
         if (!senders.isEmpty()) {
-            senderPhone = senders.get(0);
+            senderPhone = senders.getFirst();
         }
         senders.add(AUTO);
         return senders;

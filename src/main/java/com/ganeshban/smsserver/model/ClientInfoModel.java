@@ -16,6 +16,6 @@ public class ClientInfoModel extends BaseModel {
     private String address;
     private String companyName;
     private String clientCode;
-    private Set<SenderModel> senders;
+    private Set<ConfigurationModel> configurations;
     private Set<UserModel> users;
 }

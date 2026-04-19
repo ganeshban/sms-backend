@@ -37,7 +37,7 @@ public class ClientInfoEntity extends BaseEntity {
     private String clientCode;
 
     @OneToMany(mappedBy = "clientCode")
-    private Set<SenderEntity> senders;
+    private Set<ConfigurationEntity> config;
 
     @OneToMany(mappedBy = "clientCode")
     private Set<UserEntity> users;
